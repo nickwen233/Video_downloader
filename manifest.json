@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Video Downloader (Python Backend)",
+  "version": "0.1",
+  "description": "Send video URLs to local Python server for download.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Download Video"
+  },
+  "permissions": [
+    "activeTab"
+  ]
+}
+
