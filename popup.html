@@ -1,15 +1,30 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <title>Video Downloader</title>
+  <style>
+    body { font-family: sans-serif; width: 250px; padding: 10px; }
+    input[type="text"] { width: 100%; padding: 5px; margin-bottom: 10px; }
+    button { width: 100%; padding: 8px; margin-top: 10px; }
+    label { display: block; margin-bottom: 5px; }
+  </style>
 </head>
 <body>
-  <h3>Send current tab to Python</h3>
-  <input id="url" style="width:300px" /><br/>
-  <label>Format: <input id="format" placeholder="bestvideo+bestaudio"></label><br/>
-  <button id="send">Download</button>
+  <h3>Video Downloader</h3>
+  <label>Video URL:</label>
+  <input type="text" id="video-url" placeholder="Paste URL here" />
+
+  <label>
+    <input type="radio" name="mode" value="video" checked /> Full Video (MP4)
+  </label>
+  <label>
+    <input type="radio" name="mode" value="audio" /> Audio Only (MP3)
+  </label>
+
+  <button id="download-btn">Download</button>
   <p id="status"></p>
+
   <script src="popup.js"></script>
 </body>
 </html>

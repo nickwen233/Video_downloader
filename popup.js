@@ -1,29 +1,31 @@
-document.getElementById("send").addEventListener("click", async () => {
-  const url = document.getElementById("url").value;
-  const format = document.getElementById("format").value || null;
+document.getElementById("download-btn").addEventListener("click", () => {
+  const url = document.getElementById("video-url").value.trim();
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const status = document.getElementById("status");
 
   if (!url) {
-    document.getElementById("status").textContent = "Enter a URL.";
+    status.textContent = "Please enter a URL.";
     return;
   }
 
-  try {
-    const resp = await fetch("http://127.0.0.1:5000/download", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ url: url, format: format })
-    });
-    const data = await resp.json();
-    document.getElementById("status").textContent = JSON.stringify(data);
-  } catch (e) {
-    document.getElementById("status").textContent = "Error: " + e;
-  }
-});
+  status.textContent = "Starting download...";
 
-// Autofill with current tab URL
-chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-  if (tabs[0]) {
-    document.getElementById("url").value = tabs[0].url;
-  }
+  fetch("http://127.0.0.1:5000/download", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url, mode })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "started") {
+        status.textContent = `Download started (${mode.toUpperCase()})`;
+      } else {
+        status.textContent = "Error: " + data.message;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      status.textContent = "Error connecting to server.";
+    });
 });
 
